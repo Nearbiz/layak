@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import layakLogo from "@/components/ui/layak.svg"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
@@ -53,14 +54,8 @@ export default function WorkerApp() {
     <div className="flex h-screen overflow-hidden bg-[#F8F9FB] text-slate-900 font-sans">
       {/* SideNavBar (hidden on mobile, visible on md) */}
       <aside className="w-64 bg-[#225BA6] border-r border-[#1C4E8F] flex-col p-4 z-40 hidden md:flex text-white/80 shrink-0">
-        <div className="mb-8 flex items-center gap-3">
-          <div className="w-10 h-10 rounded bg-[#FFE100] text-[#225BA6] flex items-center justify-center font-bold text-lg">
-            TNG
-          </div>
-          <div>
-            <div className="font-bold text-lg text-white leading-none">Layak Infra</div>
-            <div className="text-xs text-[#FFE100] font-medium mt-1">Verified Identity Node</div>
-          </div>
+        <div className="mb-8 flex justify-center -ml-4">
+          <img src={layakLogo} alt="LAYAK Logo" className="w-32 h-auto" />
         </div>
 
         <nav className="flex-1 flex flex-col gap-2">
@@ -192,42 +187,98 @@ export default function WorkerApp() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             {/* Layak Score Card (Hero) */}
-            <Card className="md:col-span-1 shadow-sm flex flex-col relative overflow-hidden bg-[#225BA6] text-white border-0">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFE100]/20 rounded-bl-full pointer-events-none"></div>
-              <CardHeader className="pb-0">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-white/90 font-bold">Layak Score</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent className="flex flex-col items-center justify-center flex-1 py-8">
-                {/* Score Display (Gauge style) */}
-                <div className="relative flex items-center justify-center mb-4 w-40 h-40">
-                  <svg className="absolute inset-0 w-40 h-40" viewBox="0 0 160 160" style={{ transform: 'rotate(135deg)' }}>
-                    {/* Background Arc (270 degrees) */}
-                    <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="12" strokeDasharray="439.82" strokeDashoffset="109.95" />
-                    {/* Foreground Animated Arc */}
-                    <circle
-                      cx="80"
-                      cy="80"
-                      r="70"
-                      fill="none"
-                      stroke="#FFE100"
-                      strokeWidth="12"
-                      strokeDasharray="439.82"
-                      strokeDashoffset={439.82 - (animatedScore / 1000 * 329.86)}
-                    />
-                  </svg>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Card className="md:col-span-1 shadow-sm flex flex-col relative overflow-hidden bg-[#225BA6] text-white border-0 cursor-pointer hover:ring-2 hover:ring-[#FFE100]/50 transition-all group">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFE100]/20 rounded-bl-full pointer-events-none group-hover:bg-[#FFE100]/30 transition-colors"></div>
+                  <CardHeader className="pb-0">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-white/90 font-bold">Layak Score</CardTitle>
+                      <span className="material-symbols-outlined text-white/40 text-sm">info</span>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex flex-col items-center justify-center flex-1 py-8">
+                    {/* Score Display (Gauge style) */}
+                    <div className="relative flex items-center justify-center mb-4 w-40 h-40">
+                      <svg className="absolute inset-0 w-40 h-40" viewBox="0 0 160 160" style={{ transform: 'rotate(135deg)' }}>
+                        {/* Background Arc (270 degrees) */}
+                        <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="12" strokeDasharray="439.82" strokeDashoffset="109.95" />
+                        {/* Foreground Animated Arc */}
+                        <circle
+                          cx="80"
+                          cy="80"
+                          r="70"
+                          fill="none"
+                          stroke="#FFE100"
+                          strokeWidth="12"
+                          strokeDasharray="439.82"
+                          strokeDashoffset={439.82 - (animatedScore / 1000 * 329.86)}
+                        />
+                      </svg>
 
-                  <div className="flex flex-col items-center z-10 w-full text-center">
-                    <span className="text-[52px] font-bold shadow-sm leading-none tabular-nums tracking-tighter" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>{animatedScore}</span>
+                      <div className="flex flex-col items-center z-10 w-full text-center">
+                        <span className="text-[52px] font-bold shadow-sm leading-none tabular-nums tracking-tighter" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>{animatedScore}</span>
+                      </div>
+                    </div>
+                    <Badge className="bg-[#FFE100] hover:bg-[#FFE100] text-[#225BA6] font-bold border-0 px-5 py-1.5 uppercase text-[11px] shadow-sm flex items-center justify-center max-w-fit mx-auto mt-2">
+                      <span className="material-symbols-outlined text-[14px] mr-1" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+                      {worker.tier}
+                    </Badge>
+                  </CardContent>
+                </Card>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-2xl border-0 shadow-2xl bg-white p-8">
+                <DialogHeader className="mb-6">
+                  <DialogTitle className="text-[#225BA6] text-2xl font-black uppercase tracking-tight">Score Breakdown</DialogTitle>
+                  <DialogDescription className="font-medium text-slate-500 text-base">
+                    How your Layak Score translates into credit-worthiness across segments.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="py-4">
+                  {/* The Pill Meter */}
+                  <div className="flex w-full h-16 rounded-2xl overflow-hidden shadow-inner border border-slate-100 bg-slate-50 mb-4">
+                    <div className="flex-1 bg-rose-500 flex items-center justify-center text-white border-r border-white/10">
+                      <span className="text-xs md:text-sm font-black tracking-tighter">0 - 250</span>
+                    </div>
+                    <div className="flex-1 bg-blue-500 flex items-center justify-center text-white border-r border-white/10">
+                      <span className="text-xs md:text-sm font-black tracking-tighter">251 - 500</span>
+                    </div>
+                    <div className="flex-1 bg-[#FFE100] flex items-center justify-center text-[#225BA6] border-r border-white/10">
+                      <span className="text-xs md:text-sm font-black tracking-tighter">501 - 750</span>
+                    </div>
+                    <div className="flex-1 bg-emerald-500 flex items-center justify-center text-white">
+                      <span className="text-xs md:text-sm font-black tracking-tighter">751 - 1000</span>
+                    </div>
+                  </div>
+
+                  {/* The Labels */}
+                  <div className="flex w-full justify-between">
+                    <div className="flex-1 text-center">
+                      <span className="text-[11px] font-black text-rose-600 uppercase tracking-[0.15em]">Bad</span>
+                    </div>
+                    <div className="flex-1 text-center">
+                      <span className="text-[11px] font-black text-blue-600 uppercase tracking-[0.15em]">Good</span>
+                    </div>
+                    <div className="flex-1 text-center">
+                      <span className="text-[11px] font-black text-amber-600 uppercase tracking-[0.15em]">Excellent</span>
+                    </div>
+                    <div className="flex-1 text-center">
+                      <span className="text-[11px] font-black text-emerald-600 uppercase tracking-[0.15em]">Perfect</span>
+                    </div>
                   </div>
                 </div>
-                <Badge className="bg-[#FFE100] hover:bg-[#FFE100] text-[#225BA6] font-bold border-0 px-5 py-1.5 uppercase text-[11px] shadow-sm flex items-center justify-center max-w-fit mx-auto mt-2">
-                  <span className="material-symbols-outlined text-[14px] mr-1" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                  {worker.tier}
-                </Badge>
-              </CardContent>
-            </Card>
+
+                <div className="mt-8 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                  <div className="flex gap-3 items-start text-slate-600">
+                    <span className="material-symbols-outlined text-[#225BA6]">lightbulb</span>
+                    <p className="text-sm leading-relaxed font-medium">
+                      Scores are updated in real-time. Moving from <span className="font-bold text-amber-600">Excellent</span> to <span className="font-bold text-emerald-600">Perfect</span> typically unlocks RM10,000+ higher BNPL limits and reduces interest rates by up to 3%.
+                    </p>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
 
             {/* Score Drivers */}
             <Card className="md:col-span-2 shadow-sm flex flex-col border-slate-200 bg-white">

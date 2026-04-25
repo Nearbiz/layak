@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import layakLogo from "@/components/ui/layak.svg"
 import { MapContainer, TileLayer, Circle, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -34,14 +35,8 @@ export default function TngAnalytics() {
     <div className="flex h-screen overflow-hidden bg-[#F8F9FB] text-slate-900 font-sans">
       {/* SideNavBar (hidden on mobile, visible on md) */}
       <aside className="w-64 bg-[#225BA6] border-r border-[#1C4E8F] flex-col p-4 z-40 hidden md:flex text-white/80 shrink-0">
-        <div className="mb-8 flex items-center gap-3">
-          <div className="w-10 h-10 rounded bg-[#FFE100] text-[#225BA6] flex items-center justify-center font-bold text-lg">
-            TNG
-          </div>
-          <div>
-            <div className="font-bold text-lg text-white leading-none">Layak Infra</div>
-            <div className="text-xs text-[#FFE100] font-medium mt-1">Verified Identity Node</div>
-          </div>
+        <div className="mb-8 flex justify-center -ml-4">
+          <img src={layakLogo} alt="LAYAK Logo" className="w-32 h-auto" />
         </div>
 
         <nav className="flex-1 flex flex-col gap-2">
@@ -172,23 +167,23 @@ export default function TngAnalytics() {
             <div className="lg:col-span-2 flex flex-col gap-6">
               <Card className="flex-1 bg-white border-slate-200 shadow-sm min-h-[500px] overflow-hidden flex flex-col p-2 z-0 rounded-[1.5rem]">
                 <CardContent className="flex-1 p-0 relative min-h-[500px] rounded-[1rem] overflow-hidden">
-                  <MapContainer 
-                    center={[3.1390, 101.6869]} 
-                    zoom={12} 
-                    scrollWheelZoom={true} 
+                  <MapContainer
+                    center={[3.1390, 101.6869]}
+                    zoom={12}
+                    scrollWheelZoom={true}
                     className="w-full h-full min-h-[500px] z-10"
                   >
                     <TileLayer
                       attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
                       url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                     />
-                    
+
                     {klHeatmapZones.map((zone, i) => (
-                      <Circle 
+                      <Circle
                         key={i}
-                        center={[zone.lat, zone.lng]} 
+                        center={[zone.lat, zone.lng]}
                         radius={zone.radius}
-                        pathOptions={{ 
+                        pathOptions={{
                           fillColor: zone.color,
                           color: zone.color,
                           fillOpacity: zone.opacity,
