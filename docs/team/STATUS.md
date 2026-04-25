@@ -21,10 +21,10 @@
 
 - [ ] Haziq reads pitch out loud
 - [ ] All 6 demo moments identified and assigned
-- [ ] DB is queryable end-to-end (Naz confirms)
+- [x] DB is queryable end-to-end (Naz confirms)
 - [ ] Seed data loaded cleanly (Fiz confirms)
 - [ ] Score service returns data for Kumar (Aein confirms)
-- [ ] At least 3 frontend pages render without errors (Fikhry confirms)
+- [x] At least 3 frontend pages render without errors (Fikhry confirms)
 
 ---
 
@@ -34,11 +34,11 @@
 
 | Person | Last update | Current task | Blocker? |
 |--------|-------------|--------------|----------|
-| Naz | H0 | Monorepo scaffold + migrations | — |
+| Naz | H1 | CI green, all 6 endpoints + JWT signing done | — |
 | Haziq | H0 | Source of truth locked | — |
-| Fikhry | H0 | Waiting for API stubs | — |
-| Aein | H2 | Seed data + score service done — waiting for DB to test E2E | — |
-| Fiz | H0 | Waiting for DB + seed spec | ✅ seed files ready, can ingest now |
+| Fikhry | H1 | All 3 pages done and wired to API | — |
+| Aein | H2 | Score service done, tests pass | ⚠️ workers.json + transactions.json not committed to repo |
+| Fiz | H1 | Seed ingestion script done | ⚠️ blocked on Aein's JSON files |
 
 ---
 
@@ -46,19 +46,19 @@
 
 | Module | Owner | Status | Notes |
 |--------|-------|--------|-------|
-| Postgres + migrations | Naz | ✅ Done | 5 tables applied locally |
-| CI pipeline | Naz | 🔄 In progress | |
-| Go API skeleton | Naz/Fiz | 🔄 In progress | |
-| Seed data (workers.json) | Aein | ✅ Done | 50 workers, seed/workers.json |
-| Seed data (transactions.json) | Aein | ✅ Done | 32k txns, seed/transactions.json |
-| Seed ingestion to DB | Fiz | ⬜ Ready to start | seed files ready — run `make seed` |
-| FastAPI score service | Aein | ✅ Done | POST /score/compute working, caches to layak_scores |
-| Score formula implementation | Aein | ✅ Done | Kumar projects 729 "excellent", all tests pass |
-| Worker App UI (`/worker`) | Fikhry | ⬜ Waiting for API stubs | |
-| Lender Portal UI (`/lender`) | Fikhry | ⬜ Waiting for API stubs | |
-| TNG Dashboard UI (`/tng`) | Fikhry | ⬜ Waiting for API stubs | |
-| Credential signing (JWT) | Naz | ⬜ Not started | |
-| Deploy to Fly.io | Naz | ⬜ Scheduled H18–H20 | |
+| Postgres + migrations | Naz | ✅ Done | 5 tables, applied in CI |
+| CI pipeline | Naz | ✅ Done | Go + Python + Frontend all green |
+| Go API — all 6 endpoints | Naz/Fiz | ✅ Done | handlers.go complete |
+| Credential signing (JWT) | Naz | ✅ Done | HMAC-SHA256 JWT in handlers.go |
+| Seed data (workers.json) | Aein | ⚠️ Blocker | generators in seed/ but JSON not committed |
+| Seed data (transactions.json) | Aein | ⚠️ Blocker | generators in seed/ but JSON not committed |
+| Seed ingestion to DB | Fiz | ✅ Done | cmd/seed/main.go ready — blocked on JSON files |
+| FastAPI score service | Aein | ✅ Done | POST /score/compute, caches to layak_scores |
+| Score formula implementation | Aein | ✅ Done | Kumar ~729 "excellent", all pytest pass |
+| Worker App UI (`/worker`) | Fikhry | ✅ Done | WorkerApp.tsx wired to all API calls |
+| Lender Portal UI (`/lender`) | Fikhry | ✅ Done | LenderPortal.tsx, issues + pulls credential |
+| TNG Dashboard UI (`/tng`) | Fikhry | ✅ Done | TngDashboard.tsx with heatmap + trade rankings |
+| Deploy to Fly.io | Naz | ⬜ Scheduled H18–H20 | docker-compose + Dockerfiles ready |
 | Pitch deck (7 slides) | Haziq | 🔄 In progress | |
 | Demo video recording | Haziq | ⬜ Scheduled H21 | |
 | Submission packet | Haziq | ⬜ Scheduled H22 | |
@@ -73,8 +73,11 @@
 - [x] PRD finalized (Haziq, H0)
 - [x] Monorepo scaffold (Naz, H0–H1)
 - [x] SQL migrations for 5 tables (Naz, H0–H1)
-- [x] Seed data generated — workers.json + transactions.json (Aein, H2)
+- [x] Go API — all 6 endpoints + JWT credential signing (Naz, H1)
+- [x] CI pipeline — Go + Python + Frontend green (Naz, H1)
 - [x] FastAPI score service + formula + tests (Aein, H2)
+- [x] All 3 frontend pages wired to API (Fikhry, H1)
+- [x] Seed ingestion script (Fiz, H1)
 
 ---
 
@@ -84,4 +87,5 @@
 
 | Blocker | Raised by | Needs | Status |
 |---------|-----------|-------|--------|
-| — | — | — | — |
+| `seed/workers.json` + `seed/transactions.json` not in repo — only generators exist | Naz | **Aein** to run generator and commit the JSON files | 🔴 Active |
+| Once JSON files land: `make seed` to load DB | Naz | **Fiz** to run after Aein commits | ⏳ Waiting |
