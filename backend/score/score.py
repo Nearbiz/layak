@@ -78,10 +78,10 @@ def compute_score(inp: ScoreInput) -> ScoreResult:
 
 
 def score_to_tier(score: int) -> str:
-    if score >= 740:
+    if score >= 700:
         return "excellent"
-    if score >= 670:
+    if score >= 600:
         return "good"
-    if score >= 580:
+    if score >= 500:
         return "fair"
     return "building"
