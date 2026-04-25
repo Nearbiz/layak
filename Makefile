@@ -64,7 +64,7 @@ seed:
 # ── Local dev ────────────────────────────────────────────────────────────────
 
 api:
-	cd backend/api && go run ./main.go
+	cd backend/api && go run .
 
 score:
 	cd backend/score && uvicorn main:app --reload --port 8001
