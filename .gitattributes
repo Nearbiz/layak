@@ -1,0 +1,5 @@
+# Normalize line endings
+* text=auto
+*.sh text eol=lf
+*.sql text eol=lf
+Makefile text eol=lf

@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: layak_db
+    environment:
+      POSTGRES_USER: layak
+      POSTGRES_PASSWORD: layak
+      POSTGRES_DB: layak
+    ports:
+      - "5432:5432"
+    volumes:
+      - layak_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U layak -d layak"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./backend/api
+      dockerfile: Dockerfile
+    container_name: layak_api
+    environment:
+      DATABASE_URL: postgres://layak:layak@db:5432/layak?sslmode=disable
+      SCORE_SERVICE_URL: http://score:8001
+      JWT_SECRET: dev-secret-change-in-prod
+      LAYAK_ISSUER: tng.layak.my
+      LENDER_KEY_AEON: demo-aeon-key
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  score:
+    build:
+      context: ./backend/score
+      dockerfile: Dockerfile
+    container_name: layak_score
+    environment:
+      DATABASE_URL: postgres://layak:layak@db:5432/layak?sslmode=disable
+    ports:
+      - "8001:8001"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: layak_frontend
+    environment:
+      VITE_API_BASE_URL: http://localhost:8080
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+
+volumes:
+  layak_pgdata:

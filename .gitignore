@@ -1,0 +1,49 @@
+# Go
+backend/api/bin/
+backend/api/*.exe
+backend/api/*.test
+backend/api/vendor/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+backend/score/.venv/
+backend/score/venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+*.local
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Seed output (generated, not committed)
+seed/workers.json
+seed/transactions.json
