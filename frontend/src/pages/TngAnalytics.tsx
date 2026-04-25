@@ -1,4 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { MapContainer, TileLayer, Circle, Tooltip } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+
+const klHeatmapZones = [
+  // High Density
+  { lat: 3.1580, lng: 101.7110, radius: 1100, color: '#FFE100', opacity: 0.6, label: 'KLCC / Bukit Bintang' },
+  { lat: 3.1330, lng: 101.6850, radius: 900, color: '#FFE100', opacity: 0.6, label: 'Brickfields Hub' },
+  { lat: 3.1410, lng: 101.6250, radius: 1000, color: '#FFE100', opacity: 0.6, label: 'Damansara Heights / TTDI' },
+  { lat: 3.1250, lng: 101.6520, radius: 850, color: '#FFE100', opacity: 0.6, label: 'Bangsar Commercial' },
+  // Medium Density
+  { lat: 3.1750, lng: 101.6930, radius: 1400, color: '#225BA6', opacity: 0.35, label: 'Sentul Raya' },
+  { lat: 3.0950, lng: 101.6980, radius: 1800, color: '#225BA6', opacity: 0.3, label: 'Sri Petaling / Bukit Jalil' },
+  { lat: 3.1110, lng: 101.7300, radius: 1500, color: '#225BA6', opacity: 0.3, label: 'Cheras Central' },
+  { lat: 3.1890, lng: 101.6500, radius: 1600, color: '#225BA6', opacity: 0.25, label: 'Kepong / Segambut' },
+  { lat: 3.0730, lng: 101.6050, radius: 2200, color: '#225BA6', opacity: 0.25, label: 'Sunway / Subang' },
+]
 
 export default function TngAnalytics() {
   return (
@@ -31,26 +47,37 @@ export default function TngAnalytics() {
             KL Zone Earnings Density
           </h2>
           
-          <Card className="flex-1 bg-white border-slate-200 shadow-sm min-h-[400px] overflow-hidden flex flex-col p-1">
-            <CardContent className="flex-1 p-0 flex items-center justify-center bg-[url('https://api.mapbox.com/styles/v1/mapbox/light-v11/static/101.6869,3.1390,11,0/800x600?access_token=pk.eyJ1IjoiZGVtbyIsImEiOiJjazkxeWg3NGwwMmtuM2VxcHlxYmtmaXk2In0.1')] bg-cover bg-center bg-no-repeat relative p-8 rounded-lg outline outline-1 outline-slate-200">
-              {/* Fake Map Grid overlay */}
-              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
-              
-              {/* Actual grid visualizer */}
-              <div className="relative z-10 w-full max-w-2xl aspect-[2/1] grid grid-cols-6 grid-rows-4 gap-1.5 p-2 bg-white rounded-xl shadow-[0_15px_40px_-10px_rgba(34,91,166,0.2)] border border-slate-100">
-                {[
-                  "bg-[#83A1CD]", "bg-[#FFE100]", "bg-[#FFE100]", "bg-[#FFE100]", "bg-[#F0F4F8]", "bg-[#225BA6]",
-                  "bg-[#83A1CD]", "bg-[#F0F4F8]", "bg-[#FFE100]", "bg-[#83A1CD]", "bg-[#FFE100]", "bg-[#FFE100]",
-                  "bg-[#F0F4F8]", "bg-[#83A1CD]", "bg-[#225BA6]", "bg-[#F0F4F8]", "bg-[#F0F4F8]", "bg-[#83A1CD]",
-                  "bg-[#FFE100]", "bg-[#83A1CD]", "bg-[#F0F4F8]", "bg-[#F0F4F8]", "bg-[#225BA6]", "bg-[#F0F4F8]"
-                ].map((colorClass, i) => (
-                  <div 
-                    key={i} 
-                    className={`rounded-sm hover:opacity-80 hover:scale-[1.03] transition-all cursor-pointer ${colorClass}`}
-                    title="Zone Data"
-                  />
+          <Card className="flex-1 bg-white border-slate-200 shadow-sm min-h-[400px] overflow-hidden flex flex-col p-1 overflow-hidden z-0">
+            <CardContent className="flex-1 p-0 relative min-h-[400px] rounded-lg overflow-hidden">
+              <MapContainer 
+                center={[3.1390, 101.6869]} 
+                zoom={12} 
+                scrollWheelZoom={true} 
+                className="w-full h-full min-h-[400px] z-10"
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+                  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                />
+                
+                {klHeatmapZones.map((zone, i) => (
+                  <Circle 
+                    key={i}
+                    center={[zone.lat, zone.lng]} 
+                    radius={zone.radius}
+                    pathOptions={{ 
+                      fillColor: zone.color,
+                      color: zone.color,
+                      fillOpacity: zone.opacity,
+                      weight: 1
+                    }}
+                  >
+                    <Tooltip direction="top" opacity={0.9} className="font-bold text-[#225BA6] bg-white border-0 shadow-md">
+                      {zone.label}
+                    </Tooltip>
+                  </Circle>
                 ))}
-              </div>
+              </MapContainer>
             </CardContent>
           </Card>
         </div>
