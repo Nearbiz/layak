@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -20,6 +20,30 @@ export default function WorkerApp() {
     score: 720,
     tier: "Excellent"
   })
+
+  // Animation state for gauge
+  const [animatedScore, setAnimatedScore] = useState(0)
+
+  useEffect(() => {
+    let startTime: number
+    const duration = 2000 // 2 second animation
+
+    // Ease in out cubic calculation
+    const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp
+      const elapsed = Math.min((timestamp - startTime) / duration, 1)
+      const eased = easeInOutCubic(elapsed)
+      
+      setAnimatedScore(Math.floor(eased * worker.score))
+
+      if (elapsed < 1) {
+        requestAnimationFrame(step)
+      }
+    }
+    requestAnimationFrame(step)
+  }, [worker.score])
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#F8F9FB] text-slate-900 font-sans">
@@ -119,16 +143,28 @@ export default function WorkerApp() {
               </CardHeader>
               <CardContent className="flex flex-col items-center justify-center flex-1 py-8">
                 {/* Score Display (Gauge style) */}
-                <div className="relative flex items-center justify-center mb-4">
-                  <div className="absolute inset-0 border-[6px] border-white/20 rounded-full w-40 h-40 mx-auto -z-10"></div>
-                  {/* Gauge Arc */}
-                  <div className="w-40 h-40 rounded-full border-[10px] border-transparent border-t-[#FFE100] border-r-[#FFE100] border-b-[#FFE100] flex flex-col items-center justify-center transform -rotate-45">
-                    <div className="transform rotate-45 flex flex-col items-center">
-                      <span className="text-5xl font-bold shadow-sm">{worker.score}</span>
-                    </div>
+                <div className="relative flex items-center justify-center mb-4 w-40 h-40">
+                  <svg className="absolute inset-0 w-40 h-40" viewBox="0 0 160 160" style={{ transform: 'rotate(135deg)' }}>
+                    {/* Background Arc (270 degrees) */}
+                    <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="12" strokeDasharray="439.82" strokeDashoffset="109.95" />
+                    {/* Foreground Animated Arc */}
+                    <circle 
+                      cx="80" 
+                      cy="80" 
+                      r="70" 
+                      fill="none" 
+                      stroke="#FFE100" 
+                      strokeWidth="12" 
+                      strokeDasharray="439.82" 
+                      strokeDashoffset={439.82 - (animatedScore / 1000 * 329.86)} 
+                    />
+                  </svg>
+                  
+                  <div className="flex flex-col items-center z-10 w-full text-center">
+                    <span className="text-[52px] font-bold shadow-sm leading-none tabular-nums tracking-tighter" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>{animatedScore}</span>
                   </div>
                 </div>
-                <Badge className="bg-[#FFE100] hover:bg-[#FFE100] text-[#225BA6] font-bold border-0 px-4 py-1.5 uppercase text-xs shadow-md flex items-center justify-center max-w-fit mx-auto">
+                <Badge className="bg-[#FFE100] hover:bg-[#FFE100] text-[#225BA6] font-bold border-0 px-5 py-1.5 uppercase text-[11px] shadow-sm flex items-center justify-center max-w-fit mx-auto mt-2">
                   <span className="material-symbols-outlined text-[14px] mr-1" style={{fontVariationSettings: "'FILL' 1"}}>verified</span>
                   {worker.tier}
                 </Badge>
