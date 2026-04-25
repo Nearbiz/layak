@@ -9,7 +9,7 @@
 
 | Person | Role | Primary module | File |
 |--------|------|----------------|------|
-| **Naz** | DB · Deploy · CI | Migrations, Postgres, GitHub Actions, Fly.io | [naz.md](./naz.md) |
+| **Naz** | DB · Deploy · CI | Migrations, Postgres, GitHub Actions, Railway | [naz.md](./naz.md) |
 | **Haziq** | Pitch · Q&A · PM | Pitch deck, demo script, submission packet | [haziq.md](./haziq.md) |
 | **Fikhry** | Frontend UI | React pages: `/worker`, `/lender`, `/tng` | [fikhry.md](./fikhry.md) |
 | **Aein** | Data · Score | Seed data generation, FastAPI score service | [aein.md](./aein.md) |
@@ -20,11 +20,11 @@
 ## H6 Checkpoint (15-min stop — everyone)
 
 - [ ] Haziq reads pitch out loud
-- [ ] All 6 demo moments identified and assigned
-- [x] DB is queryable end-to-end (Naz confirms)
-- [ ] Seed data loaded cleanly (Fiz confirms)
-- [ ] Score service returns data for Kumar (Aein confirms)
-- [x] At least 3 frontend pages render without errors (Fikhry confirms)
+- [x] All 6 demo moments identified and assigned
+- [x] DB schema ready end-to-end (Naz confirms)
+- [ ] Seed data loaded cleanly (Fiz confirms — run `make seed`)
+- [ ] Score service returns 720+ for Kumar (Aein confirms — needs DB)
+- [x] All 3 frontend pages build without errors (Fikhry confirms)
 
 ---
 
@@ -34,11 +34,11 @@
 
 | Person | Last update | Current task | Blocker? |
 |--------|-------------|--------------|----------|
-| Naz | H1 | CI green, all 6 endpoints + JWT signing done | — |
+| Naz | H2 | Code complete. Waiting for OceanBase credentials to deploy | ⚠️ Need OceanBase URL from Alibaba Cloud console |
 | Haziq | H0 | Source of truth locked | — |
-| Fikhry | H1 | All 3 pages done and wired to API | — |
-| Aein | H2 | All done — seed JSON committed, score service live, tests pass | ⏳ waiting for Fiz to run `make seed` → then H6 checkpoint |
-| Fiz | H1 | Seed ingestion script done | ⚠️ JSON files now in repo — run `make seed` to unblock |
+| Fikhry | H2 | All 3 pages done, Tailwind + shadcn wired, builds clean | — |
+| Aein | H2 | All done — seed JSON committed, score service live, tests pass | — |
+| Fiz | H2 | Seed ingestion script done — JSON files now in repo | 🔴 Run `make seed` to load DB |
 
 ---
 
@@ -46,19 +46,19 @@
 
 | Module | Owner | Status | Notes |
 |--------|-------|--------|-------|
-| Postgres + migrations | Naz | ✅ Done | 5 tables, applied in CI |
-| CI pipeline | Naz | ✅ Done | Go + Python + Frontend all green |
-| Go API — all 6 endpoints | Naz/Fiz | ✅ Done | handlers.go complete |
-| Credential signing (JWT) | Naz | ✅ Done | HMAC-SHA256 JWT in handlers.go |
+| Postgres + migrations | Naz | ✅ Done | 5 tables, CI-verified |
+| CI pipeline | Naz | ✅ Done | Go + Python + Frontend all green on main |
+| Go API — all 6 endpoints | Naz | ✅ Done | handlers.go, main.go complete |
+| Credential signing (JWT) | Naz | ✅ Done | HMAC-SHA256 JWT, issues + pull working |
+| FastAPI score service | Aein | ✅ Done | POST /score/compute, caches to layak_scores |
+| Score formula | Aein | ✅ Done | Kumar projects 744 "excellent", all pytest pass |
 | Seed data (workers.json) | Aein | ✅ Done | 50 workers committed to seed/workers.json |
 | Seed data (transactions.json) | Aein | ✅ Done | 32k txns committed to seed/transactions.json |
-| Seed ingestion to DB | Fiz | ⏳ Ready to run | cmd/seed/main.go ready — JSON files available, run `make seed` |
-| FastAPI score service | Aein | ✅ Done | POST /score/compute, caches to layak_scores |
-| Score formula implementation | Aein | ✅ Done | Kumar ~729 "excellent", all pytest pass |
-| Worker App UI (`/worker`) | Fikhry | ✅ Done | WorkerApp.tsx wired to all API calls |
-| Lender Portal UI (`/lender`) | Fikhry | ✅ Done | LenderPortal.tsx, issues + pulls credential |
-| TNG Dashboard UI (`/tng`) | Fikhry | ✅ Done | TngDashboard.tsx with heatmap + trade rankings |
-| Deploy to Fly.io | Naz | ⬜ Scheduled H18–H20 | docker-compose + Dockerfiles ready |
+| Seed ingestion to DB | Fiz | 🔴 Ready to run | Run `make seed` — JSON files are in repo |
+| Worker App UI (`/worker`) | Fikhry | ✅ Done | Score, market chart, BNPL catalog wired to API |
+| Lender Portal UI (`/lender`) | Fikhry | ✅ Done | Issues + pulls credential, pretty-prints JWT |
+| TNG Dashboard UI (`/tng`) | Fikhry | ✅ Done | Heatmap + top trades, Tailwind + shadcn |
+| Deploy to Railway | Naz | ⬜ Ready to deploy | Dockerfiles done — need OceanBase credentials |
 | Pitch deck (7 slides) | Haziq | 🔄 In progress | |
 | Demo video recording | Haziq | ⬜ Scheduled H21 | |
 | Submission packet | Haziq | ⬜ Scheduled H22 | |
@@ -67,26 +67,22 @@
 
 ## Completed Modules
 
-> Move items here when fully done and verified.
-
 - [x] Source of Truth document locked (Haziq, H0)
 - [x] PRD finalized (Haziq, H0)
-- [x] Monorepo scaffold (Naz, H0–H1)
-- [x] SQL migrations for 5 tables (Naz, H0–H1)
+- [x] Monorepo scaffold (Naz, H0)
+- [x] SQL migrations — 5 tables (Naz, H1)
 - [x] Go API — all 6 endpoints + JWT credential signing (Naz, H1)
-- [x] CI pipeline — Go + Python + Frontend green (Naz, H1)
-- [x] FastAPI score service + formula + tests (Aein, H2)
+- [x] CI pipeline — Go + Python + Frontend green (Naz, H2)
+- [x] FastAPI score service + formula + pytest suite (Aein, H2)
 - [x] Seed data — 50 workers + 32k transactions committed (Aein, H2)
-- [x] All 3 frontend pages wired to API (Fikhry, H1)
-- [x] Seed ingestion script (Fiz, H1)
+- [x] Seed ingestion script — cmd/seed/main.go (Fiz, H2)
+- [x] All 3 frontend pages wired to API (Fikhry, H2)
 
 ---
 
 ## Blockers / Escalations
 
-> Add here immediately. Tag the person who can unblock.
-
 | Blocker | Raised by | Needs | Status |
 |---------|-----------|-------|--------|
-| `seed/workers.json` + `seed/transactions.json` not in repo — only generators exist | Naz | **Aein** to run generator and commit the JSON files | ✅ Resolved — files committed (Aein, H2) |
-| Run `make seed` to load DB | Naz | **Fiz** to run — JSON files now available | 🔴 Active |
+| Seed not loaded to DB | Naz | **Fiz**: run `make seed` — JSON files are now in repo | 🔴 Active |
+| No DB credentials yet | Naz | **OceanBase credentials** from Alibaba Cloud console — needed for deploy + E2E test | 🔴 Active |
