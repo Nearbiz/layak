@@ -21,8 +21,9 @@ export default function WorkerApp() {
     tier: "Excellent"
   })
 
-  // Animation state for gauge
+  // Animation state for gauge and bars
   const [animatedScore, setAnimatedScore] = useState(0)
+  const [progress, setProgress] = useState(0)
 
   useEffect(() => {
     let startTime: number
@@ -37,6 +38,7 @@ export default function WorkerApp() {
       const eased = easeInOutCubic(elapsed)
       
       setAnimatedScore(Math.floor(eased * worker.score))
+      setProgress(eased)
 
       if (elapsed < 1) {
         requestAnimationFrame(step)
@@ -233,30 +235,30 @@ export default function WorkerApp() {
                     <div>
                       <div className="flex justify-between mb-1.5">
                         <span className="text-xs font-bold text-slate-500 uppercase">Top Quartile</span>
-                        <span className="text-sm font-bold text-slate-900">RM6,100</span>
+                        <span className="text-sm font-bold text-slate-900">RM{Math.floor(6100 * progress).toLocaleString()}</span>
                       </div>
                       <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50">
-                        <div className="bg-[#FFE100] w-full h-full rounded-full"></div>
+                        <div className="bg-[#FFE100] h-full rounded-full" style={{ width: `${100 * progress}%` }}></div>
                       </div>
                     </div>
                     {/* Average */}
                     <div>
                       <div className="flex justify-between mb-1.5">
                         <span className="text-xs font-bold text-slate-500 uppercase">Market Average</span>
-                        <span className="text-sm font-bold text-slate-900">RM4,800</span>
+                        <span className="text-sm font-bold text-slate-900">RM{Math.floor(4800 * progress).toLocaleString()}</span>
                       </div>
                       <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50">
-                        <div className="bg-[#225BA6]/30 w-[78%] h-full rounded-full"></div>
+                        <div className="bg-[#225BA6]/30 h-full rounded-full" style={{ width: `${(4800/6100 * 100) * progress}%` }}></div>
                       </div>
                     </div>
                     {/* You */}
                     <div>
                       <div className="flex justify-between mb-1.5">
-                        <span className="text-xs font-bold text-[#225BA6] uppercase">You (Kumar)</span>
-                        <span className="text-sm font-bold text-[#225BA6]">RM4,200</span>
+                        <span className="text-xs font-bold text-[#225BA6] uppercase">You ({worker.name.split(' ')[0]})</span>
+                        <span className="text-sm font-bold text-[#225BA6]">RM{Math.floor(4200 * progress).toLocaleString()}</span>
                       </div>
                       <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50 shadow-sm">
-                        <div className="bg-[#225BA6] w-[68%] h-full rounded-full"></div>
+                        <div className="bg-[#225BA6] h-full rounded-full" style={{ width: `${(4200/6100 * 100) * progress}%` }}></div>
                       </div>
                     </div>
                   </div>
