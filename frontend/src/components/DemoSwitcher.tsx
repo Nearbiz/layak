@@ -11,7 +11,7 @@ export default function DemoSwitcher() {
   const location = useLocation()
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] px-2 py-1.5 bg-[#225BA6] rounded-full border-2 border-[#1C4E8F] shadow-[0_12px_40px_-8px_rgba(34,91,166,0.5)] flex items-center gap-1">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] px-2 py-1.5 bg-transparent hover:bg-[#225BA6]/90 backdrop-blur-none hover:backdrop-blur-xl rounded-full border border-transparent hover:border-white/20 hover:shadow-[0_12px_40px_-8px_rgba(34,91,166,0.5)] flex items-center gap-1 transition-all duration-500 group">
       {roles.map((role) => {
         const isActive = location.pathname.startsWith(role.path.split('/').slice(0, 2).join('/'))
         return (
@@ -20,9 +20,9 @@ export default function DemoSwitcher() {
             onClick={() => navigate(role.path)}
             className={`
               flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300
-              ${isActive 
-                ? 'bg-[#FFE100] text-[#225BA6] shadow-md scale-105' 
-                : 'text-white/70 hover:text-white hover:bg-white/10'
+              ${isActive
+                ? 'bg-[#FFE100] text-[#225BA6] shadow-md'
+                : 'text-[#225BA6]/40 group-hover:text-white/70 hover:!text-white hover:bg-white/10'
               }
             `}
           >

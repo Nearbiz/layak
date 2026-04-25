@@ -35,7 +35,7 @@ export default function LenderPortal() {
     if (!workerId) return
     setIsLoading(true)
     setResult(null)
-    
+
     // In a real demo, this fetches from /api/credentials/pull/:workerId
     setTimeout(() => {
       setResult(mockCredential)
@@ -62,13 +62,13 @@ export default function LenderPortal() {
         {/* Sidebar */}
         <aside className="w-64 bg-white border-r hidden md:block p-6">
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-6">Portal Activity</h3>
-          
+
           <div className="space-y-6">
             <div>
               <div className="text-3xl font-black text-slate-800">142</div>
               <div className="text-sm font-medium text-slate-500">Recent pulls today</div>
             </div>
-            
+
             <div>
               <div className="text-3xl font-black text-slate-800">3,891</div>
               <div className="text-sm font-medium text-slate-500">Pulls this month</div>
@@ -79,7 +79,7 @@ export default function LenderPortal() {
         {/* Main Content */}
         <main className="flex-1 p-6 lg:p-12 overflow-auto">
           <div className="max-w-3xl mx-auto space-y-8">
-            
+
             <Card className="shadow-sm border-0">
               <CardHeader>
                 <CardTitle>Pull Layak Credential</CardTitle>
@@ -91,15 +91,15 @@ export default function LenderPortal() {
                 <form onSubmit={handlePull} className="flex gap-3">
                   <div className="relative flex-1">
                     <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[24px]">search</span>
-                    <Input 
-                      placeholder="e.g. worker_kumar_001" 
+                    <Input
+                      placeholder="e.g. worker_kumar_001"
                       className="pl-12 py-6 text-lg bg-slate-50 border-slate-300 font-bold placeholder:font-normal"
                       value={workerId}
                       onChange={(e) => setWorkerId(e.target.value)}
                     />
                   </div>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     disabled={!workerId || isLoading}
                     className="py-6 px-8 text-lg bg-[#225BA6] hover:bg-[#1C4E8F] text-[#FFE100] font-bold shadow-md"
                   >
@@ -123,7 +123,7 @@ export default function LenderPortal() {
                     <span className="material-symbols-outlined text-[16px] mr-1">schedule</span> Within TTL
                   </Badge>
                 </div>
-                
+
                 <Card className="border-slate-200 shadow-sm overflow-hidden bg-white">
                   <div className="flex items-center px-4 py-2 border-b border-slate-200 bg-slate-50">
                     <div className="flex gap-1.5">
@@ -135,11 +135,11 @@ export default function LenderPortal() {
                   </div>
                   <CardContent className="p-0">
                     <pre className="p-6 text-sm font-mono text-[#225BA6] overflow-x-auto">
-                      <code dangerouslySetInnerHTML={{ 
+                      <code dangerouslySetInnerHTML={{
                         __html: JSON.stringify(result, null, 2)
                           .replace(/"(.*?)":/g, '<span class="text-slate-600">"$1"</span>:')
                           .replace(/: "(.*?)"/g, ': <span class="text-[#225BA6] font-bold">"$1"</span>')
-                          .replace(/: (\d+)/g, ': <span class="text-[#225BA6] font-bold">$1</span>') 
+                          .replace(/: (\d+)/g, ': <span class="text-[#225BA6] font-bold">$1</span>')
                       }}>
                       </code>
                     </pre>

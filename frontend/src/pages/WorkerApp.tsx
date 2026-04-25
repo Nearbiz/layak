@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -37,7 +38,7 @@ export default function WorkerApp() {
       if (!startTime) startTime = timestamp
       const elapsed = Math.min((timestamp - startTime) / duration, 1)
       const eased = easeInOutCubic(elapsed)
-      
+
       setAnimatedScore(Math.floor(eased * worker.score))
       setProgress(eased)
 
@@ -77,10 +78,10 @@ export default function WorkerApp() {
             <span className="material-symbols-outlined text-[20px]">account_balance_wallet</span>
             <span className="text-sm font-semibold">Verified Income</span>
           </a>
-          <a href="#" className="text-white/80 flex items-center gap-3 px-4 py-3 hover:translate-x-1 transition-transform hover:bg-[#1C4E8F] rounded-lg">
-            <span className="material-symbols-outlined text-[20px]">trending_up</span>
-            <span className="text-sm font-semibold">Strategic Trends</span>
-          </a>
+          <Link to="/tng" className="text-white/80 flex items-center gap-3 px-4 py-3 hover:translate-x-1 transition-transform hover:bg-[#1C4E8F] rounded-lg">
+            <span className="material-symbols-outlined text-[20px]">explore</span>
+            <span className="text-sm font-semibold">TNG GPS (Trends)</span>
+          </Link>
         </nav>
 
         <div className="mt-auto flex flex-col gap-2 pt-6 border-t border-[#1C4E8F]">
@@ -128,18 +129,18 @@ export default function WorkerApp() {
 
           {/* Mobile Hamburger Toggle */}
           <div className="md:hidden flex items-center gap-2">
-             <button className="text-slate-400 p-2 relative">
-               <span className="material-symbols-outlined text-[24px]">notifications</span>
-               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-             </button>
-             <button 
-               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-               className="text-[#225BA6] p-2 rounded-lg hover:bg-slate-100 transition-all"
-             >
-               <span className="material-symbols-outlined text-[32px] block">
-                 {isMobileMenuOpen ? 'close' : 'menu'}
-               </span>
-             </button>
+            <button className="text-slate-400 p-2 relative">
+              <span className="material-symbols-outlined text-[24px]">notifications</span>
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-[#225BA6] p-2 rounded-lg hover:bg-slate-100 transition-all"
+            >
+              <span className="material-symbols-outlined text-[32px] block">
+                {isMobileMenuOpen ? 'close' : 'menu'}
+              </span>
+            </button>
           </div>
 
           {/* Mobile Menu Dropdown */}
@@ -156,7 +157,7 @@ export default function WorkerApp() {
                     <Badge className="bg-[#FFE100] text-[#225BA6] border-none text-[9px] px-2 py-0.5 mt-2 font-black uppercase">{worker.tier} Tier</Badge>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-3">
                   <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-50 rounded-xl border-b-4 border-slate-200 hover:bg-slate-100 transition-all active:border-b-0 active:translate-y-1">
                     <span className="material-symbols-outlined text-[28px] text-[#225BA6]">settings</span>
@@ -205,24 +206,24 @@ export default function WorkerApp() {
                     {/* Background Arc (270 degrees) */}
                     <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="12" strokeDasharray="439.82" strokeDashoffset="109.95" />
                     {/* Foreground Animated Arc */}
-                    <circle 
-                      cx="80" 
-                      cy="80" 
-                      r="70" 
-                      fill="none" 
-                      stroke="#FFE100" 
-                      strokeWidth="12" 
-                      strokeDasharray="439.82" 
-                      strokeDashoffset={439.82 - (animatedScore / 1000 * 329.86)} 
+                    <circle
+                      cx="80"
+                      cy="80"
+                      r="70"
+                      fill="none"
+                      stroke="#FFE100"
+                      strokeWidth="12"
+                      strokeDasharray="439.82"
+                      strokeDashoffset={439.82 - (animatedScore / 1000 * 329.86)}
                     />
                   </svg>
-                  
+
                   <div className="flex flex-col items-center z-10 w-full text-center">
                     <span className="text-[52px] font-bold shadow-sm leading-none tabular-nums tracking-tighter" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>{animatedScore}</span>
                   </div>
                 </div>
                 <Badge className="bg-[#FFE100] hover:bg-[#FFE100] text-[#225BA6] font-bold border-0 px-5 py-1.5 uppercase text-[11px] shadow-sm flex items-center justify-center max-w-fit mx-auto mt-2">
-                  <span className="material-symbols-outlined text-[14px] mr-1" style={{fontVariationSettings: "'FILL' 1"}}>verified</span>
+                  <span className="material-symbols-outlined text-[14px] mr-1" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                   {worker.tier}
                 </Badge>
               </CardContent>
@@ -303,7 +304,7 @@ export default function WorkerApp() {
                         <span className="text-sm font-bold text-slate-900">RM{Math.floor(4800 * progress).toLocaleString()}</span>
                       </div>
                       <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50">
-                        <div className="bg-[#225BA6]/30 h-full rounded-full" style={{ width: `${(4800/6100 * 100) * progress}%` }}></div>
+                        <div className="bg-[#225BA6]/30 h-full rounded-full" style={{ width: `${(4800 / 6100 * 100) * progress}%` }}></div>
                       </div>
                     </div>
                     {/* You */}
@@ -313,7 +314,7 @@ export default function WorkerApp() {
                         <span className="text-sm font-bold text-[#225BA6]">RM{Math.floor(4200 * progress).toLocaleString()}</span>
                       </div>
                       <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50 shadow-sm">
-                        <div className="bg-[#225BA6] h-full rounded-full" style={{ width: `${(4200/6100 * 100) * progress}%` }}></div>
+                        <div className="bg-[#225BA6] h-full rounded-full" style={{ width: `${(4200 / 6100 * 100) * progress}%` }}></div>
                       </div>
                     </div>
                   </div>
