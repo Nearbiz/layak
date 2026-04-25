@@ -24,6 +24,7 @@ export default function WorkerApp() {
   // Animation state for gauge and bars
   const [animatedScore, setAnimatedScore] = useState(0)
   const [progress, setProgress] = useState(0)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     let startTime: number
@@ -100,29 +101,83 @@ export default function WorkerApp() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-screen overflow-y-auto relative w-full">
         {/* TopAppBar */}
-        <header className="bg-white border-b border-slate-200 shadow-sm flex items-center justify-between px-6 h-16 w-full sticky top-0 z-30">
+        <header className="bg-white border-b border-slate-200 shadow-sm flex items-center justify-between px-6 h-16 w-full sticky top-0 z-50">
           <div className="flex items-center gap-6">
-            <span className="font-bold text-xl text-slate-800 md:hidden">LAYAK</span>
-            <span className="font-bold text-lg text-slate-800 hidden md:block">Worker Portal</span>
+            <span className="font-bold text-xl text-[#225BA6] md:hidden tracking-tighter uppercase">LAYAK</span>
+            <span className="font-bold text-lg text-slate-800 hidden md:block uppercase tracking-tight">Worker Portal</span>
           </div>
 
-          <div className="flex items-center gap-3">
+          {/* Desktop Navigation Icons */}
+          <div className="hidden md:flex items-center gap-3">
             <button className="text-slate-400 hover:bg-slate-100 transition-all p-2 rounded-full flex items-center justify-center">
-              <span className="material-symbols-outlined text-[20px]">notifications</span>
+              <span className="material-symbols-outlined text-[22px]">notifications</span>
             </button>
             <button className="text-slate-400 hover:bg-slate-100 transition-all p-2 rounded-full flex items-center justify-center">
-              <span className="material-symbols-outlined text-[20px]">settings</span>
+              <span className="material-symbols-outlined text-[22px]">settings</span>
             </button>
             <div className="flex items-center gap-2 ml-2 pl-2 border-l border-slate-200">
-              <div className="text-right hidden sm:block">
-                <p className="text-sm font-semibold text-slate-700 leading-none">{worker.name}</p>
-                <p className="text-xs text-slate-500 mt-1">{worker.trade}</p>
+              <div className="text-right">
+                <p className="text-sm font-bold text-slate-800 leading-none">{worker.name}</p>
+                <p className="text-[10px] uppercase font-bold text-slate-400 mt-1 tracking-wider">{worker.trade}</p>
               </div>
-              <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
-                <span className="material-symbols-outlined text-[20px]">person</span>
+              <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-[#225BA6] shadow-sm">
+                <span className="material-symbols-outlined text-[24px]">person</span>
               </div>
             </div>
           </div>
+
+          {/* Mobile Hamburger Toggle */}
+          <div className="md:hidden flex items-center gap-2">
+             <button className="text-slate-400 p-2 relative">
+               <span className="material-symbols-outlined text-[24px]">notifications</span>
+               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+             </button>
+             <button 
+               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+               className="text-[#225BA6] p-2 rounded-lg hover:bg-slate-100 transition-all"
+             >
+               <span className="material-symbols-outlined text-[32px] block">
+                 {isMobileMenuOpen ? 'close' : 'menu'}
+               </span>
+             </button>
+          </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="absolute top-full left-0 right-0 bg-white border-b-2 border-slate-100 shadow-2xl z-50 md:hidden animate-in slide-in-from-top-1 duration-200">
+              <div className="p-5 flex flex-col gap-6">
+                <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <div className="w-14 h-14 rounded-full bg-[#FFE100]/20 border-2 border-[#FFE100]/40 flex items-center justify-center text-[#225BA6] shadow-sm">
+                    <span className="material-symbols-outlined text-[32px]">person</span>
+                  </div>
+                  <div>
+                    <p className="font-black text-xl text-[#225BA6] leading-none uppercase tracking-tight">{worker.name}</p>
+                    <p className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest">{worker.trade}</p>
+                    <Badge className="bg-[#FFE100] text-[#225BA6] border-none text-[9px] px-2 py-0.5 mt-2 font-black uppercase">{worker.tier} Tier</Badge>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-50 rounded-xl border-b-4 border-slate-200 hover:bg-slate-100 transition-all active:border-b-0 active:translate-y-1">
+                    <span className="material-symbols-outlined text-[28px] text-[#225BA6]">settings</span>
+                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">Settings</span>
+                  </button>
+                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-50 rounded-xl border-b-4 border-slate-200 hover:bg-slate-100 transition-all active:border-b-0 active:translate-y-1">
+                    <span className="material-symbols-outlined text-[28px] text-[#225BA6]">account_circle</span>
+                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">My Profile</span>
+                  </button>
+                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-50 rounded-xl border-b-4 border-slate-200 hover:bg-slate-100 transition-all active:border-b-0 active:translate-y-1">
+                    <span className="material-symbols-outlined text-[28px] text-[#225BA6]">shield</span>
+                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">Privacy</span>
+                  </button>
+                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-100 rounded-xl border-b-4 border-slate-300 hover:bg-slate-200 transition-all active:border-b-0 active:translate-y-1">
+                    <span className="material-symbols-outlined text-[28px] text-slate-600">logout</span>
+                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">Log Out</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </header>
 
         {/* Dashboard Content */}
