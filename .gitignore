@@ -44,6 +44,3 @@ desktop.ini
 *.swp
 *.swo
 
-# Seed output (generated, not committed)
-seed/workers.json
-seed/transactions.json

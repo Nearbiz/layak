@@ -1,0 +1,452 @@
+[
+  {
+    "worker_id": "worker_kumar_001",
+    "full_name": "Kumar Selvarajan",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_kumar_001",
+    "joined_at": "2024-10-01T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_siti_001",
+    "full_name": "Siti Rahimah",
+    "trade": "kuih_seller",
+    "zone": "cheras_kl",
+    "tng_account_ref": "tng_worker_siti_001",
+    "joined_at": "2024-06-01T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_002",
+    "full_name": "Ravi Kumar",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_002",
+    "joined_at": "2024-07-05T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_003",
+    "full_name": "Sham Selvam",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_003",
+    "joined_at": "2024-09-03T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_004",
+    "full_name": "Muthu Krishnan",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_004",
+    "joined_at": "2024-05-06T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_005",
+    "full_name": "Dinesh Pillai",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_005",
+    "joined_at": "2025-05-01T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_006",
+    "full_name": "Suresh Nair",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_006",
+    "joined_at": "2023-07-11T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_007",
+    "full_name": "Azlan Hamid",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_007",
+    "joined_at": "2023-07-11T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_008",
+    "full_name": "Farid Zulkifli",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_008",
+    "joined_at": "2023-06-11T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_009",
+    "full_name": "Hafiz Rahman",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_009",
+    "joined_at": "2023-09-09T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_010",
+    "full_name": "Rizal Hasan",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_010",
+    "joined_at": "2024-11-02T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_011",
+    "full_name": "Zamri Idris",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_011",
+    "joined_at": "2023-11-08T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_012",
+    "full_name": "Ahmad Razif",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_012",
+    "joined_at": "2024-05-06T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_013",
+    "full_name": "Kamarul Ariff",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_013",
+    "joined_at": "2024-04-06T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_014",
+    "full_name": "Shafiq Rosli",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_014",
+    "joined_at": "2023-10-09T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_015",
+    "full_name": "Lokman Hakim",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_015",
+    "joined_at": "2025-01-01T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_016",
+    "full_name": "Azhar Malik",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_016",
+    "joined_at": "2025-01-01T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_017",
+    "full_name": "Bala Krishnan",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_017",
+    "joined_at": "2025-03-02T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_018",
+    "full_name": "Gopal Raj",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_018",
+    "joined_at": "2023-10-09T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_019",
+    "full_name": "Venkat Raman",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_019",
+    "joined_at": "2024-10-03T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_020",
+    "full_name": "Senthil Kumar",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_020",
+    "joined_at": "2023-08-10T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_021",
+    "full_name": "Prakash Pillai",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_021",
+    "joined_at": "2025-08-29T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_022",
+    "full_name": "Izwan Kamal",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_022",
+    "joined_at": "2024-06-05T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_023",
+    "full_name": "Shahril Azam",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_023",
+    "joined_at": "2023-05-12T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_024",
+    "full_name": "Fadzli Nordin",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_024",
+    "joined_at": "2024-11-02T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_025",
+    "full_name": "Hazli Jamil",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_025",
+    "joined_at": "2024-03-07T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_026",
+    "full_name": "Khairul Azri",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_026",
+    "joined_at": "2024-08-04T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_027",
+    "full_name": "Syafiq Zuhri",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_027",
+    "joined_at": "2023-07-11T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_028",
+    "full_name": "Wan Khairul",
+    "trade": "barber_services",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_barber_028",
+    "joined_at": "2023-08-10T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_029",
+    "full_name": "Mohd Razali",
+    "trade": "barber_services",
+    "zone": "brickfields_kl",
+    "tng_account_ref": "tng_worker_barber_029",
+    "joined_at": "2024-12-02T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_barber_030",
+    "full_name": "Saiful Bahari",
+    "trade": "barber_services",
+    "zone": "chow_kit_kl",
+    "tng_account_ref": "tng_worker_barber_030",
+    "joined_at": "2025-06-30T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_002",
+    "full_name": "Aishah Yusof",
+    "trade": "kuih_seller",
+    "zone": "cheras_kl",
+    "tng_account_ref": "tng_worker_kuih_002",
+    "joined_at": "2023-11-08T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_003",
+    "full_name": "Rosnah Majid",
+    "trade": "kuih_seller",
+    "zone": "ampang_kl",
+    "tng_account_ref": "tng_worker_kuih_003",
+    "joined_at": "2024-08-04T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_004",
+    "full_name": "Halimah Bakar",
+    "trade": "kuih_seller",
+    "zone": "wangsa_maju_kl",
+    "tng_account_ref": "tng_worker_kuih_004",
+    "joined_at": "2025-08-29T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_005",
+    "full_name": "Zainab Alias",
+    "trade": "kuih_seller",
+    "zone": "cheras_kl",
+    "tng_account_ref": "tng_worker_kuih_005",
+    "joined_at": "2024-01-07T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_006",
+    "full_name": "Kamariah Daud",
+    "trade": "kuih_seller",
+    "zone": "ampang_kl",
+    "tng_account_ref": "tng_worker_kuih_006",
+    "joined_at": "2024-09-03T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_007",
+    "full_name": "Rohani Hassan",
+    "trade": "kuih_seller",
+    "zone": "wangsa_maju_kl",
+    "tng_account_ref": "tng_worker_kuih_007",
+    "joined_at": "2024-02-06T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_008",
+    "full_name": "Noraini Talib",
+    "trade": "kuih_seller",
+    "zone": "cheras_kl",
+    "tng_account_ref": "tng_worker_kuih_008",
+    "joined_at": "2024-12-02T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_009",
+    "full_name": "Maimunah Zain",
+    "trade": "kuih_seller",
+    "zone": "ampang_kl",
+    "tng_account_ref": "tng_worker_kuih_009",
+    "joined_at": "2023-12-08T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_010",
+    "full_name": "Fauziah Rahim",
+    "trade": "kuih_seller",
+    "zone": "wangsa_maju_kl",
+    "tng_account_ref": "tng_worker_kuih_010",
+    "joined_at": "2025-05-31T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_011",
+    "full_name": "Ramlah Ismail",
+    "trade": "kuih_seller",
+    "zone": "cheras_kl",
+    "tng_account_ref": "tng_worker_kuih_011",
+    "joined_at": "2024-07-05T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_kuih_012",
+    "full_name": "Rugayah Ahmad",
+    "trade": "kuih_seller",
+    "zone": "ampang_kl",
+    "tng_account_ref": "tng_worker_kuih_012",
+    "joined_at": "2024-03-07T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_001",
+    "full_name": "Chong Wei Ming",
+    "trade": "mobile_mechanic",
+    "zone": "kepong_kl",
+    "tng_account_ref": "tng_worker_mech_001",
+    "joined_at": "2024-08-04T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_002",
+    "full_name": "Lim Boon Tat",
+    "trade": "mobile_mechanic",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_mech_002",
+    "joined_at": "2025-09-28T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_003",
+    "full_name": "Tan Ah Kow",
+    "trade": "mobile_mechanic",
+    "zone": "cheras_kl",
+    "tng_account_ref": "tng_worker_mech_003",
+    "joined_at": "2023-05-12T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_004",
+    "full_name": "Wong Fook Meng",
+    "trade": "mobile_mechanic",
+    "zone": "kepong_kl",
+    "tng_account_ref": "tng_worker_mech_004",
+    "joined_at": "2025-07-30T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_005",
+    "full_name": "Lee Swee Huat",
+    "trade": "mobile_mechanic",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_mech_005",
+    "joined_at": "2024-06-05T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_006",
+    "full_name": "Ng Beng Hock",
+    "trade": "mobile_mechanic",
+    "zone": "cheras_kl",
+    "tng_account_ref": "tng_worker_mech_006",
+    "joined_at": "2025-03-02T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_007",
+    "full_name": "Ong Ah Seng",
+    "trade": "mobile_mechanic",
+    "zone": "kepong_kl",
+    "tng_account_ref": "tng_worker_mech_007",
+    "joined_at": "2025-09-28T00:00:00Z",
+    "status": "active"
+  },
+  {
+    "worker_id": "worker_mech_008",
+    "full_name": "Yap Kim Leng",
+    "trade": "mobile_mechanic",
+    "zone": "setapak_kl",
+    "tng_account_ref": "tng_worker_mech_008",
+    "joined_at": "2023-11-08T00:00:00Z",
+    "status": "active"
+  }
+]
