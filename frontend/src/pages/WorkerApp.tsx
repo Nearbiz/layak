@@ -1,197 +1,328 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
-import { getWorker, getMarket, getBnplQuote } from '../api'
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
-const TIER_COLOR: Record<string, string> = {
-  excellent: '#16a34a',
-  good: '#2563eb',
-  fair: '#d97706',
-  building: '#9ca3af',
-}
-
-const ASSET_CATALOG = [
-  { sku: 'barber_chair_v2',     name: 'Professional Barber Chair', price: 3000, lift: 40 },
-  { sku: 'clipper_set_pro',     name: 'Pro Clipper Set',           price: 850,  lift: 20 },
-  { sku: 'commercial_oven_30l', name: 'Commercial Oven 30L',       price: 4200, lift: 35 },
-  { sku: 'packaging_machine',   name: 'Packaging Machine',         price: 2800, lift: 30 },
-  { sku: 'dslr_kit',            name: 'DSLR Photography Kit',      price: 5500, lift: 45 },
-  { sku: 'led_lighting_kit',    name: 'LED Lighting Kit',          price: 1200, lift: 25 },
+const bnplCatalog = [
+  { id: "barber_chair_v2", name: "Pro Barber Chair", price: 3000, monthly: 280, tenor: 12, lift: 40, img: "💺" },
+  { id: "clipper_set_pro", name: "Wireless Clipper Set", price: 800, monthly: 75, tenor: 12, lift: 15, img: "✂️" },
+  { id: "salon_station", name: "Mirrored Station", price: 1500, monthly: 140, tenor: 12, lift: 25, img: "🪞" },
+  { id: "led_signage", name: "LED Signage", price: 400, monthly: 38, tenor: 12, lift: 10, img: "💡" },
 ]
 
 export default function WorkerApp() {
-  const { id } = useParams<{ id: string }>()
-  const [worker, setWorker] = useState<any>(null)
-  const [market, setMarket] = useState<any>(null)
-  const [activeTab, setActiveTab] = useState<'score' | 'bnpl'>('score')
-  const [quote, setQuote] = useState<any>(null)
-  const [quotingSku, setQuotingSku] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    if (!id) return
-    setLoading(true)
-    getWorker(id).then((w: any) => {
-      setWorker(w)
-      if (w.trade && w.zone) getMarket(w.trade, w.zone).then(setMarket)
-    }).finally(() => setLoading(false))
-  }, [id])
-
-  async function handleGetQuote(sku: string) {
-    setQuotingSku(sku)
-    try {
-      const q = await getBnplQuote(id!, sku)
-      setQuote(q)
-    } finally {
-      setQuotingSku(null)
-    }
-  }
-
-  if (loading) return <div style={styles.center}>Loading...</div>
-  if (!worker) return <div style={styles.center}>Worker not found.</div>
-
-  const score = worker.score?.value ?? 0
-  const tier = worker.score?.tier ?? 'building'
-  const drivers = worker.score?.drivers ?? {}
-  const tierColor = TIER_COLOR[tier] ?? '#9ca3af'
-
-  const marketBars = market ? [
-    { name: 'You', value: worker.earnings_6mo_monthly?.slice(-1)[0] ?? 0, you: true },
-    { name: 'Avg', value: market.avg_monthly_myr, you: false },
-    { name: 'Top 25%', value: market.p75_monthly_myr, you: false },
-  ] : []
+  const [worker] = useState({
+    name: "Kumar Selvarajan",
+    trade: "Barber Services",
+    zone: "Brickfields, KL",
+    score: 720,
+    tier: "Excellent"
+  })
 
   return (
-    <div style={styles.page}>
-      {/* Header */}
-      <header style={styles.header}>
-        <span style={styles.logo}>TNG · <strong>Layak</strong></span>
-        <span style={styles.avatar}>{worker.name?.charAt(0) ?? 'K'}</span>
-      </header>
-
-      {/* Score card */}
-      <div style={{ ...styles.card, borderTop: `4px solid ${tierColor}` }}>
-        <p style={styles.label}>Layak Score</p>
-        <p style={{ ...styles.scoreNum, color: tierColor }}>{score}</p>
-        <span style={{ ...styles.tierBadge, background: tierColor }}>
-          {tier.toUpperCase()}
-        </span>
-        <div style={styles.drivers}>
-          {Object.entries(drivers).slice(0, 3).map(([k, v]: [string, any]) => (
-            <div key={k} style={styles.chip}>
-              <span style={styles.chipLabel}>{k}</span>
-              <span style={styles.chipVal}>{((v?.value ?? 0) * 100).toFixed(0)}%</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={styles.tabs}>
-        <button style={{ ...styles.tab, ...(activeTab === 'score' ? styles.tabActive : {}) }}
-          onClick={() => setActiveTab('score')}>Market Position</button>
-        <button style={{ ...styles.tab, ...(activeTab === 'bnpl' ? styles.tabActive : {}) }}
-          onClick={() => setActiveTab('bnpl')}>Grow your business</button>
-      </div>
-
-      {activeTab === 'score' && market && (
-        <div style={styles.card}>
-          <p style={styles.cardTitle}>{worker.trade?.replace(/_/g, ' ')} in {worker.zone?.replace(/_/g, ' ')}</p>
-          <ResponsiveContainer width="100%" height={180}>
-            <BarChart data={marketBars} margin={{ top: 8, right: 16, left: 0, bottom: 0 }}>
-              <XAxis dataKey="name" tick={{ fontSize: 13 }} />
-              <YAxis tickFormatter={(v: number) => `RM${(v/1000).toFixed(1)}k`} tick={{ fontSize: 12 }} />
-              <Tooltip formatter={(v: number) => `RM${v.toLocaleString()}`} />
-              <Bar dataKey="value" radius={[6,6,0,0]}>
-                {marketBars.map((entry, i) => (
-                  <Cell key={i} fill={entry.you ? '#0070f3' : '#d1d5db'} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-          <p style={styles.marketNote}>
-            You earn RM{(marketBars[0]?.value ?? 0).toLocaleString()} / avg RM{market.avg_monthly_myr?.toLocaleString()} / top RM{market.p75_monthly_myr?.toLocaleString()}
-          </p>
-        </div>
-      )}
-
-      {activeTab === 'bnpl' && (
-        <div style={styles.catalog}>
-          {ASSET_CATALOG.map(item => (
-            <div key={item.sku} style={styles.assetCard}>
-              <p style={styles.assetName}>{item.name}</p>
-              <p style={styles.assetPrice}>RM{item.price.toLocaleString()}</p>
-              <p style={styles.assetLift}>+{item.lift}% earnings lift</p>
-              <button style={styles.quoteBtn}
-                disabled={quotingSku === item.sku}
-                onClick={() => handleGetQuote(item.sku)}>
-                {quotingSku === item.sku ? 'Getting quote...' : 'Get Quote'}
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Quote modal */}
-      {quote && (
-        <div style={styles.overlay} onClick={() => setQuote(null)}>
-          <div style={styles.modal} onClick={e => e.stopPropagation()}>
-            <p style={styles.modalTitle}>{quote.asset?.name}</p>
-            <div style={styles.modalRow}><span>Price</span><strong>RM{quote.asset?.price_myr?.toLocaleString()}</strong></div>
-            <div style={styles.modalRow}><span>Tenor</span><strong>{quote.tenor_months} months</strong></div>
-            <div style={styles.modalRow}><span>Monthly</span><strong>RM{quote.monthly_myr}</strong></div>
-            <div style={styles.modalRow}><span>Earnings lift</span><strong>+{quote.projected_lift_pct}%</strong></div>
-            <div style={{ ...styles.approveBox, background: quote.approval_status === 'approved' ? '#dcfce7' : '#fee2e2' }}>
-              {quote.approval_status === 'approved'
-                ? '✓ Approved instantly — your Layak Score qualifies you'
-                : '✗ Score below threshold'}
-            </div>
-            <button style={styles.closeBtn} onClick={() => setQuote(null)}>Close</button>
+    <div className="flex h-screen overflow-hidden bg-[#F8F9FB] text-slate-900 font-sans">
+      {/* SideNavBar (hidden on mobile, visible on md) */}
+      <aside className="w-64 bg-[#225BA6] border-r border-[#1C4E8F] flex-col p-4 z-40 hidden md:flex text-white/80 shrink-0">
+        <div className="mb-8 flex items-center gap-3">
+          <div className="w-10 h-10 rounded bg-[#FFE100] text-[#225BA6] flex items-center justify-center font-bold text-lg">
+            TNG
+          </div>
+          <div>
+            <div className="font-bold text-lg text-white leading-none">Layak Infra</div>
+            <div className="text-xs text-[#FFE100] font-medium mt-1">Verified Identity Node</div>
           </div>
         </div>
-      )}
+
+        <nav className="flex-1 flex flex-col gap-2">
+          {/* Active Nav Item */}
+          <a href="#" className="bg-white text-[#225BA6] shadow-sm rounded-lg flex items-center gap-3 px-4 py-3 transition-all duration-200">
+            <span className="material-symbols-outlined text-[20px]">fingerprint</span>
+            <span className="text-sm font-bold">Identity Score</span>
+          </a>
+          {/* Inactive Nav Items */}
+          <a href="#" className="text-white/80 flex items-center gap-3 px-4 py-3 hover:translate-x-1 transition-transform hover:bg-[#1C4E8F] rounded-lg">
+            <span className="material-symbols-outlined text-[20px]">handyman</span>
+            <span className="text-sm font-semibold">Productive BNPL</span>
+          </a>
+          <a href="#" className="text-white/80 flex items-center gap-3 px-4 py-3 hover:translate-x-1 transition-transform hover:bg-[#1C4E8F] rounded-lg">
+            <span className="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+            <span className="text-sm font-semibold">Verified Income</span>
+          </a>
+          <a href="#" className="text-white/80 flex items-center gap-3 px-4 py-3 hover:translate-x-1 transition-transform hover:bg-[#1C4E8F] rounded-lg">
+            <span className="material-symbols-outlined text-[20px]">trending_up</span>
+            <span className="text-sm font-semibold">Strategic Trends</span>
+          </a>
+        </nav>
+
+        <div className="mt-auto flex flex-col gap-2 pt-6 border-t border-[#1C4E8F]">
+          <button className="w-full bg-[#1C4E8F] hover:bg-[#153A6A] text-white py-2.5 rounded-lg text-xs font-bold uppercase mb-2 transition-colors">
+            Consent Manager
+          </button>
+          <a href="#" className="text-white/80 flex items-center gap-3 px-4 py-2 hover:translate-x-1 transition-transform hover:bg-[#1C4E8F] rounded-lg">
+            <span className="material-symbols-outlined text-[20px]">shield</span>
+            <span className="text-sm">Security</span>
+          </a>
+          <a href="#" className="text-white/80 flex items-center gap-3 px-4 py-2 hover:translate-x-1 transition-transform hover:bg-[#1C4E8F] rounded-lg">
+            <span className="material-symbols-outlined text-[20px]">contact_support</span>
+            <span className="text-sm">Support</span>
+          </a>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-screen overflow-y-auto relative w-full">
+        {/* TopAppBar */}
+        <header className="bg-white border-b border-slate-200 shadow-sm flex items-center justify-between px-6 h-16 w-full sticky top-0 z-30">
+          <div className="flex items-center gap-6">
+            <span className="font-bold text-xl text-slate-800 md:hidden">LAYAK</span>
+            <span className="font-bold text-lg text-slate-800 hidden md:block">Worker Portal</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button className="text-slate-400 hover:bg-slate-100 transition-all p-2 rounded-full flex items-center justify-center">
+              <span className="material-symbols-outlined text-[20px]">notifications</span>
+            </button>
+            <button className="text-slate-400 hover:bg-slate-100 transition-all p-2 rounded-full flex items-center justify-center">
+              <span className="material-symbols-outlined text-[20px]">settings</span>
+            </button>
+            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-slate-200">
+              <div className="text-right hidden sm:block">
+                <p className="text-sm font-semibold text-slate-700 leading-none">{worker.name}</p>
+                <p className="text-xs text-slate-500 mt-1">{worker.trade}</p>
+              </div>
+              <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-500">
+                <span className="material-symbols-outlined text-[20px]">person</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Dashboard Content */}
+        <main className="p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col gap-8">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-bold text-slate-900">Kumar's Overview</h1>
+            <p className="text-slate-500 text-lg">Your verified identity and market position metrics.</p>
+          </div>
+
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            {/* Layak Score Card (Hero) */}
+            <Card className="md:col-span-1 shadow-sm flex flex-col relative overflow-hidden bg-[#225BA6] text-white border-0">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#FFE100]/20 rounded-bl-full pointer-events-none"></div>
+              <CardHeader className="pb-0">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-white/90 font-bold">Layak Score</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="flex flex-col items-center justify-center flex-1 py-8">
+                {/* Score Display (Gauge style) */}
+                <div className="relative flex items-center justify-center mb-4">
+                  <div className="absolute inset-0 border-[6px] border-white/20 rounded-full w-40 h-40 mx-auto -z-10"></div>
+                  {/* Gauge Arc */}
+                  <div className="w-40 h-40 rounded-full border-[10px] border-transparent border-t-[#FFE100] border-r-[#FFE100] border-b-[#FFE100] flex flex-col items-center justify-center transform -rotate-45">
+                    <div className="transform rotate-45 flex flex-col items-center">
+                      <span className="text-5xl font-bold shadow-sm">{worker.score}</span>
+                    </div>
+                  </div>
+                </div>
+                <Badge className="bg-[#FFE100] hover:bg-[#FFE100] text-[#225BA6] font-bold border-0 px-4 py-1.5 uppercase text-xs shadow-md flex items-center justify-center max-w-fit mx-auto">
+                  <span className="material-symbols-outlined text-[14px] mr-1" style={{fontVariationSettings: "'FILL' 1"}}>verified</span>
+                  {worker.tier}
+                </Badge>
+              </CardContent>
+            </Card>
+
+            {/* Score Drivers */}
+            <Card className="md:col-span-2 shadow-sm flex flex-col border-slate-200 bg-white">
+              <CardHeader className="border-b border-slate-100 pb-4 mb-4">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-slate-800 text-lg">Score Drivers</CardTitle>
+                  <button className="text-xs font-bold text-[#225BA6] uppercase hover:underline">View Details</button>
+                </div>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1">
+                {/* Driver 1 */}
+                <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 flex flex-col items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#FFE100]/30 text-[#225BA6] flex items-center justify-center shadow-sm">
+                    <span className="material-symbols-outlined text-[20px]">calendar_month</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-500 uppercase mb-1">Consistency</h3>
+                    <p className="text-slate-900 font-bold text-lg">12 Months</p>
+                  </div>
+                </div>
+                {/* Driver 2 */}
+                <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 flex flex-col items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#FFE100]/30 text-[#225BA6] flex items-center justify-center shadow-sm">
+                    <span className="material-symbols-outlined text-[20px]">work</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-500 uppercase mb-1">Diversification</h3>
+                    <p className="text-slate-900 font-bold text-lg">4 Sources</p>
+                  </div>
+                </div>
+                {/* Driver 3 */}
+                <div className="bg-slate-50 rounded-lg p-4 border border-slate-200 flex flex-col items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#FFE100]/30 text-[#225BA6] flex items-center justify-center shadow-sm">
+                    <span className="material-symbols-outlined text-[20px]">show_chart</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-slate-500 uppercase mb-1">Risk Profile</h3>
+                    <p className="text-slate-900 font-bold text-lg">Low Volatility</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Collective Intelligence (Market Position) */}
+            <Card className="md:col-span-3 shadow-sm border-slate-200 bg-white">
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="material-symbols-outlined text-[#225BA6] text-[20px]">groups</span>
+                  <CardTitle className="text-slate-800 text-lg">Collective Intelligence: Market Position</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent className="flex flex-col md:flex-row gap-8 items-center pt-2">
+                <div className="flex-1 w-full">
+                  <p className="text-slate-600 mb-6 border-l-4 border-[#FFE100] pl-3 py-1 bg-slate-50">
+                    Barbers in <span className="font-bold text-[#225BA6]">Brickfields</span> average <span className="font-bold text-[#225BA6]">RM4,800/month</span>. You earn <span className="font-bold text-[#225BA6]">RM4,200</span>. Top quartile is <span className="font-bold text-[#225BA6]">RM6,100</span>.
+                  </p>
+
+                  {/* Visual Bar Chart (HTML CSS-based) */}
+                  <div className="space-y-4 w-full">
+                    {/* Top Quartile */}
+                    <div>
+                      <div className="flex justify-between mb-1.5">
+                        <span className="text-xs font-bold text-slate-500 uppercase">Top Quartile</span>
+                        <span className="text-sm font-bold text-slate-900">RM6,100</span>
+                      </div>
+                      <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50">
+                        <div className="bg-[#FFE100] w-full h-full rounded-full"></div>
+                      </div>
+                    </div>
+                    {/* Average */}
+                    <div>
+                      <div className="flex justify-between mb-1.5">
+                        <span className="text-xs font-bold text-slate-500 uppercase">Market Average</span>
+                        <span className="text-sm font-bold text-slate-900">RM4,800</span>
+                      </div>
+                      <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50">
+                        <div className="bg-[#225BA6]/30 w-[78%] h-full rounded-full"></div>
+                      </div>
+                    </div>
+                    {/* You */}
+                    <div>
+                      <div className="flex justify-between mb-1.5">
+                        <span className="text-xs font-bold text-[#225BA6] uppercase">You (Kumar)</span>
+                        <span className="text-sm font-bold text-[#225BA6]">RM4,200</span>
+                      </div>
+                      <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden border border-slate-300/50 shadow-sm">
+                        <div className="bg-[#225BA6] w-[68%] h-full rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Insight Area */}
+                <div className="w-full md:w-72 bg-slate-50 rounded-lg p-5 border border-slate-200">
+                  <h4 className="text-xs font-bold text-slate-500 uppercase mb-2">Insight</h4>
+                  <p className="text-sm text-slate-700 mb-4">
+                    Increasing your weekend hours could bridge the gap to the market average based on foot traffic data.
+                  </p>
+                  <Button variant="outline" className="w-full border-slate-300 text-slate-700 uppercase text-xs font-bold bg-white hover:bg-slate-50">
+                    View Strategies
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Productive BNPL integrated seamlessly */}
+          <div className="mt-4">
+            <Tabs defaultValue="grow" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 max-w-[400px] bg-slate-100 p-1 rounded-lg">
+                <TabsTrigger value="grow" className="font-bold">Grow Your Business</TabsTrigger>
+                <TabsTrigger value="history" className="font-bold">History</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="grow" className="mt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-bold text-slate-800 text-lg">Productive-Asset BNPL</h3>
+                  <span className="text-xs font-bold text-[#225BA6] bg-[#FFE100]/30 px-3 py-1.5 rounded-full uppercase shadow-sm border border-[#FFE100]/50">Score Qualifies</span>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {bnplCatalog.map((item) => (
+                    <Dialog key={item.id}>
+                      <DialogTrigger asChild>
+                        <Card className="cursor-pointer hover:border-[#FFE100] hover:shadow-lg transition-all shadow-sm border-slate-200 bg-white">
+                          <CardContent className="p-5 flex flex-col items-center text-center gap-3">
+                            <div className="text-4xl bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mb-1 border border-slate-200 shadow-sm">
+                              {item.img}
+                            </div>
+                            <h4 className="font-bold text-slate-800 text-sm leading-tight h-10 flex items-center">{item.name}</h4>
+                            <div className="text-[#225BA6] font-bold text-xl mt-auto">RM{item.monthly}<span className="text-xs font-bold text-slate-400">/mo</span></div>
+                          </CardContent>
+                        </Card>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md border-0 shadow-2xl">
+                        <DialogHeader>
+                          <DialogTitle className="text-[#225BA6]">Financing Offer</DialogTitle>
+                          <DialogDescription className="font-medium text-slate-500">
+                            Approved instantly — your Layak Score ({worker.score}) qualifies you.
+                          </DialogDescription>
+                        </DialogHeader>
+
+                        <div className="bg-slate-50 p-4 rounded-lg space-y-3 my-2 border border-slate-200">
+                          <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                            <span className="text-slate-500 font-bold uppercase text-xs">Asset</span>
+                            <span className="font-bold text-slate-900">{item.name}</span>
+                          </div>
+                          <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                            <span className="text-slate-500 font-bold uppercase text-xs">Price</span>
+                            <span className="font-bold text-slate-900">RM {item.price.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+                            <span className="text-slate-500 font-bold uppercase text-xs">Tenor</span>
+                            <span className="font-bold text-slate-900">{item.tenor} months</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-slate-500 font-bold uppercase text-xs">Projected Lift</span>
+                            <Badge className="bg-[#FFE100] text-[#225BA6] hover:bg-[#FFE100] border-none px-3 py-1 shadow-sm font-bold">+{item.lift}% earnings</Badge>
+                          </div>
+                        </div>
+
+                        <div className="text-center py-4">
+                          <div className="text-sm font-bold text-slate-400 uppercase mb-1">Monthly Repayment</div>
+                          <div className="text-5xl font-bold text-[#225BA6]">RM {item.monthly}</div>
+                        </div>
+
+                        <DialogFooter className="sm:justify-start">
+                          <Button type="button" className="w-full bg-[#225BA6] hover:bg-[#1C4E8F] text-white font-bold py-6 text-lg shadow-md border-b-4 border-[#153A6A] active:border-b-0 active:translate-y-1 transition-all">
+                            Accept & Approve Installment
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="history">
+                <Card className="shadow-sm border-slate-200">
+                  <CardContent className="p-8 text-center text-slate-500 font-medium pb-8 w-full">
+                    Transaction history view out of demo scope.
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
+
+        </main>
+      </div>
     </div>
   )
-}
-
-const styles: Record<string, React.CSSProperties> = {
-  page: { maxWidth: 480, margin: '0 auto', padding: '0 0 32px' },
-  center: { display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' },
-  header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-    padding: '16px 20px', background: '#fff', borderBottom: '1px solid #e5e7eb' },
-  logo: { fontSize: 18, color: '#0070f3' },
-  avatar: { width: 36, height: 36, borderRadius: '50%', background: '#0070f3',
-    color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontWeight: 700, fontSize: 16 },
-  card: { background: '#fff', borderRadius: 12, padding: 20, margin: '16px', boxShadow: '0 1px 4px rgba(0,0,0,.08)' },
-  label: { color: '#6b7280', fontSize: 13, marginBottom: 4 },
-  scoreNum: { fontSize: 72, fontWeight: 800, lineHeight: 1, margin: '8px 0' },
-  tierBadge: { display: 'inline-block', color: '#fff', fontSize: 12, fontWeight: 700,
-    padding: '3px 10px', borderRadius: 20, letterSpacing: 1 },
-  drivers: { display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' },
-  chip: { background: '#f3f4f6', borderRadius: 20, padding: '4px 12px', display: 'flex', gap: 4, fontSize: 13 },
-  chipLabel: { color: '#6b7280', textTransform: 'capitalize' },
-  chipVal: { fontWeight: 600 },
-  tabs: { display: 'flex', margin: '0 16px', borderBottom: '2px solid #e5e7eb' },
-  tab: { flex: 1, padding: '10px 0', background: 'none', border: 'none', cursor: 'pointer',
-    fontSize: 14, color: '#6b7280' },
-  tabActive: { color: '#0070f3', borderBottom: '2px solid #0070f3', marginBottom: -2, fontWeight: 600 },
-  cardTitle: { fontWeight: 600, marginBottom: 12, textTransform: 'capitalize' },
-  marketNote: { fontSize: 12, color: '#6b7280', marginTop: 8 },
-  catalog: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, margin: 16 },
-  assetCard: { background: '#fff', borderRadius: 12, padding: 14, boxShadow: '0 1px 4px rgba(0,0,0,.08)' },
-  assetName: { fontWeight: 600, fontSize: 13, marginBottom: 4 },
-  assetPrice: { color: '#0070f3', fontWeight: 700, fontSize: 15 },
-  assetLift: { color: '#16a34a', fontSize: 12, margin: '4px 0 8px' },
-  quoteBtn: { width: '100%', background: '#0070f3', color: '#fff', border: 'none',
-    borderRadius: 8, padding: '8px 0', cursor: 'pointer', fontSize: 13, fontWeight: 600 },
-  overlay: { position: 'fixed', inset: 0, background: 'rgba(0,0,0,.5)', display: 'flex',
-    alignItems: 'center', justifyContent: 'center', zIndex: 100 },
-  modal: { background: '#fff', borderRadius: 16, padding: 24, width: 320, boxShadow: '0 8px 32px rgba(0,0,0,.2)' },
-  modalTitle: { fontWeight: 700, fontSize: 18, marginBottom: 16 },
-  modalRow: { display: 'flex', justifyContent: 'space-between', padding: '8px 0',
-    borderBottom: '1px solid #f3f4f6', fontSize: 14 },
-  approveBox: { borderRadius: 8, padding: '12px 16px', margin: '16px 0', fontSize: 13, fontWeight: 600 },
-  closeBtn: { width: '100%', background: '#f3f4f6', border: 'none', borderRadius: 8,
-    padding: '10px 0', cursor: 'pointer', fontWeight: 600 },
 }
