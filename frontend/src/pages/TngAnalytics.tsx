@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import layak2Logo from "@/components/ui/layak_2.svg"
 import { MapContainer, TileLayer, Circle, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
