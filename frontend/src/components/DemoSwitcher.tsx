@@ -11,7 +11,7 @@ export default function DemoSwitcher() {
   const location = useLocation()
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] px-2 py-1.5 bg-white/80 backdrop-blur-md hover:bg-[#225BA6]/90 hover:backdrop-blur-xl rounded-full border border-slate-200 hover:border-white/20 shadow-md hover:shadow-[0_12px_40px_-8px_rgba(34,91,166,0.5)] flex items-center gap-1 transition-all duration-500 group">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] px-2 py-1.5 bg-white/80 backdrop-blur-md hover:bg-[#225BA6]/90 hover:backdrop-blur-xl rounded-full border border-slate-200 hover:border-white/20 shadow-md hover:shadow-[0_12px_40px_-8px_rgba(34,91,166,0.5)] flex items-center gap-1 transition-all duration-500 group md:hidden">
       {roles.map((role) => {
         const isActive = location.pathname.startsWith(role.path.split('/').slice(0, 2).join('/'))
         return (

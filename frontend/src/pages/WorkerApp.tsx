@@ -155,41 +155,79 @@ export default function WorkerApp() {
             </button>
           </div>
 
-          {/* Mobile Menu Dropdown */}
+          {/* Mobile Menu Drawer Overlay */}
           {isMobileMenuOpen && (
-            <div className="absolute top-full left-0 right-0 bg-white border-b-2 border-slate-100 shadow-2xl z-50 md:hidden animate-in slide-in-from-top-1 duration-200">
-              <div className="p-5 flex flex-col gap-6">
-                <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <div className="w-14 h-14 rounded-full bg-[#FFE100]/20 border-2 border-[#FFE100]/40 flex items-center justify-center text-[#225BA6] shadow-sm">
-                    <span className="material-symbols-outlined text-[32px]">person</span>
-                  </div>
-                  <div>
-                    <p className="font-black text-xl text-[#225BA6] leading-none uppercase tracking-tight">{worker.name}</p>
-                    <p className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest">{worker.trade}</p>
-                    <Badge className="bg-[#FFE100] text-[#225BA6] border-none text-[9px] px-2 py-0.5 mt-2 font-black uppercase">{worker.tier} Tier</Badge>
-                  </div>
+            <>
+              {/* Backdrop */}
+              <div 
+                className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] md:hidden animate-in fade-in duration-300"
+                onClick={() => setIsMobileMenuOpen(false)}
+              />
+              
+              {/* Drawer */}
+              <div className="fixed inset-y-0 left-0 w-[280px] bg-[#225BA6] z-[70] md:hidden animate-in slide-in-from-left duration-300 shadow-2xl flex flex-col p-6">
+                <div className="flex items-center justify-between mb-8">
+                  <button
+                    onClick={() => navigate("/")}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors border border-white/10"
+                  >
+                    <span className="material-symbols-outlined text-[20px] text-white">arrow_back</span>
+                  </button>
+                  <button 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="text-white/60 hover:text-white"
+                  >
+                    <span className="material-symbols-outlined text-[28px]">close</span>
+                  </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-50 rounded-xl border-b-4 border-slate-200 hover:bg-slate-100 transition-all active:border-b-0 active:translate-y-1">
-                    <span className="material-symbols-outlined text-[28px] text-[#225BA6]">settings</span>
-                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">Settings</span>
+                <div className="flex justify-center mb-10">
+                  <img src={layak2Logo} alt="LAYAK Logo" className="w-32 h-auto" />
+                </div>
+
+                <nav className="flex-1 flex flex-col gap-3">
+                  <a href="#" className="bg-white text-[#225BA6] shadow-sm rounded-lg flex items-center gap-4 px-4 py-3.5">
+                    <span className="material-symbols-outlined text-[22px]">fingerprint</span>
+                    <span className="text-base font-bold">Identity Score</span>
+                  </a>
+                  <a href="#" className="text-white/80 flex items-center gap-4 px-4 py-3.5 hover:bg-white/10 rounded-lg transition-colors">
+                    <span className="material-symbols-outlined text-[22px]">handyman</span>
+                    <span className="text-base font-bold">Productive BNPL</span>
+                  </a>
+                  <a href="#" className="text-white/80 flex items-center gap-4 px-4 py-3.5 hover:bg-white/10 rounded-lg transition-colors">
+                    <span className="material-symbols-outlined text-[22px]">account_balance_wallet</span>
+                    <span className="text-base font-bold">Verified Income</span>
+                  </a>
+                  <Link to="/tng" className="text-white/80 flex items-center gap-4 px-4 py-3.5 hover:bg-white/10 rounded-lg transition-colors">
+                    <span className="material-symbols-outlined text-[22px]">explore</span>
+                    <span className="text-base font-bold">TNG GPS (Trends)</span>
+                  </Link>
+                </nav>
+
+                <div className="mt-auto flex flex-col gap-4 pt-6 border-t border-white/10">
+                  <div className="flex items-center gap-3 px-2 mb-2">
+                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white border border-white/10">
+                      <span className="material-symbols-outlined text-[24px]">person</span>
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-sm font-bold text-white leading-none">{worker.name}</p>
+                      <p className="text-[10px] uppercase font-bold text-white/50 mt-1 tracking-wider">{worker.trade}</p>
+                    </div>
+                  </div>
+                  <button className="w-full bg-[#FFE100] hover:bg-[#F0D500] text-[#225BA6] py-3 rounded-xl text-sm font-black uppercase transition-all shadow-lg active:scale-[0.98]">
+                    Consent Manager
                   </button>
-                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-50 rounded-xl border-b-4 border-slate-200 hover:bg-slate-100 transition-all active:border-b-0 active:translate-y-1">
-                    <span className="material-symbols-outlined text-[28px] text-[#225BA6]">account_circle</span>
-                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">My Profile</span>
-                  </button>
-                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-50 rounded-xl border-b-4 border-slate-200 hover:bg-slate-100 transition-all active:border-b-0 active:translate-y-1">
-                    <span className="material-symbols-outlined text-[28px] text-[#225BA6]">shield</span>
-                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">Privacy</span>
-                  </button>
-                  <button className="flex flex-col items-center justify-center gap-2 p-5 bg-slate-100 rounded-xl border-b-4 border-slate-300 hover:bg-slate-200 transition-all active:border-b-0 active:translate-y-1">
-                    <span className="material-symbols-outlined text-[28px] text-slate-600">logout</span>
-                    <span className="text-xs font-black uppercase text-slate-600 tracking-tighter">Log Out</span>
-                  </button>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button className="flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-white/10 rounded-lg text-[10px] font-bold text-white uppercase border border-white/5">
+                      <span className="material-symbols-outlined text-[16px]">settings</span> Settings
+                    </button>
+                    <button className="flex items-center justify-center gap-2 py-2.5 bg-white/5 hover:bg-white/10 rounded-lg text-[10px] font-bold text-white uppercase border border-white/5">
+                      <span className="material-symbols-outlined text-[16px]">logout</span> Logout
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
         </header>
 
