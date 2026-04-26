@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import layak2Logo from "@/components/ui/layak_2.svg"
 
 const stats = [
   { label: "Trapped-middle workers", value: "500,000+" },
@@ -50,22 +51,19 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-[#FAFAF7] text-slate-900 font-sans antialiased">
       {/* Top bar */}
-      <nav className="border-b border-slate-200/70 sticky top-0 bg-[#FAFAF7]/90 backdrop-blur-sm z-20">
+      <nav className="border-b border-[#1C4E8F] sticky top-0 bg-[#225BA6] text-white z-20 shadow-md">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-sm bg-[#225BA6] text-[#FFE100] flex items-center justify-center font-extrabold text-xs">
-              L
-            </div>
-            <span className="font-semibold tracking-tight">Layak</span>
-            <span className="hidden sm:inline text-xs text-slate-500 ml-1">/ TNG FINHACK 2026</span>
+            <img src={layak2Logo} alt="Layak" className="h-7 w-auto" />
+            <span className="hidden sm:inline text-xs text-white/50 ml-1 font-medium tracking-wider">/ TNG FINHACK 2026</span>
           </div>
-          <div className="flex items-center gap-2 sm:gap-6 text-sm text-slate-700">
-            <Link to="/worker/worker_kumar_001" className="hidden sm:inline hover:text-[#225BA6]">Worker</Link>
-            <Link to="/lender" className="hidden sm:inline hover:text-[#225BA6]">Lender</Link>
-            <Link to="/tng" className="hidden sm:inline hover:text-[#225BA6]">TNG</Link>
+          <div className="flex items-center gap-4 sm:gap-8 text-sm font-semibold">
+            <Link to="/worker/worker_kumar_001" className="hidden sm:inline text-white/80 hover:text-[#FFE100] transition-colors">Worker</Link>
+            <Link to="/lender" className="hidden sm:inline text-white/80 hover:text-[#FFE100] transition-colors">Lender</Link>
+            <Link to="/tng" className="hidden sm:inline text-white/80 hover:text-[#FFE100] transition-colors">TNG</Link>
             <Link
               to="/worker/worker_kumar_001"
-              className="px-3 py-1.5 bg-[#225BA6] text-white text-sm rounded-sm hover:bg-[#1C4E8F] transition"
+              className="px-4 py-2 bg-[#FFE100] text-[#225BA6] rounded-sm hover:bg-[#F7D800] transition shadow-sm font-bold uppercase text-[11px] tracking-wider"
             >
               View demo
             </Link>
@@ -159,7 +157,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Three layers */}
+      {/* Layers */}
       <section className="border-t border-slate-200">
         <div className="max-w-6xl mx-auto px-6 py-20 sm:py-24">
           <p className="text-xs uppercase tracking-[0.18em] text-[#225BA6] font-semibold mb-4">
@@ -180,7 +178,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Moat / pull-quote */}
+      {/* Moat */}
       <section className="border-t border-slate-200 bg-[#225BA6] text-white">
         <div className="max-w-6xl mx-auto px-6 py-20 sm:py-24">
           <p className="text-xs uppercase tracking-[0.18em] text-[#FFE100] font-semibold mb-6">
@@ -238,10 +236,8 @@ export default function Landing() {
       <footer className="border-t border-slate-200">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-sm bg-[#225BA6] text-[#FFE100] flex items-center justify-center font-extrabold text-[10px]">
-              L
-            </div>
-            <span>Layak — because Kumar's work makes him worthy.</span>
+            <img src={layak2Logo} alt="Layak" className="h-5 w-auto" />
+            <span>— because Kumar's work makes him worthy.</span>
           </div>
           <div className="flex items-center gap-6">
             <span>Team FinNIX</span>

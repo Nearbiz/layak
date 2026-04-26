@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import layakLogo from "@/components/ui/layak.svg"
+import layak2Logo from "@/components/ui/layak_2.svg"
 import { MapContainer, TileLayer, Circle, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
@@ -21,6 +21,7 @@ const klHeatmapZones = [
 ]
 
 export default function TngAnalytics() {
+  const navigate = useNavigate()
   const [worker] = useState({
     name: "Kumar Selvarajan",
     trade: "Barber Services",
@@ -35,8 +36,18 @@ export default function TngAnalytics() {
     <div className="flex h-screen overflow-hidden bg-[#F8F9FB] text-slate-900 font-sans">
       {/* SideNavBar (hidden on mobile, visible on md) */}
       <aside className="w-64 bg-[#225BA6] border-r border-[#1C4E8F] flex-col p-4 z-40 hidden md:flex text-white/80 shrink-0">
+        <div className="mb-4">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors border border-white/10"
+            title="Go back to Landing"
+          >
+            <span className="material-symbols-outlined text-[20px]">arrow_back</span>
+          </button>
+        </div>
+
         <div className="mb-8 flex justify-center -ml-4">
-          <img src={layakLogo} alt="LAYAK Logo" className="w-32 h-auto" />
+          <img src={layak2Logo} alt="LAYAK Logo" className="w-32 h-auto" />
         </div>
 
         <nav className="flex-1 flex flex-col gap-2">
@@ -77,8 +88,14 @@ export default function TngAnalytics() {
       <div className="flex-1 flex flex-col h-screen overflow-y-auto relative w-full">
         {/* TopAppBar */}
         <header className="bg-white border-b border-slate-200 shadow-sm flex items-center justify-between px-6 h-16 w-full sticky top-0 z-50">
-          <div className="flex items-center gap-6">
-            <span className="font-bold text-xl text-[#225BA6] md:hidden tracking-tighter uppercase">LAYAK</span>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate("/")}
+              className="flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 transition-colors md:hidden border border-slate-200"
+            >
+              <span className="material-symbols-outlined text-[20px] text-slate-600">arrow_back</span>
+            </button>
+            <img src={layak2Logo} alt="Layak" className="h-6 w-auto md:hidden" />
             <span className="font-bold text-lg text-slate-800 hidden md:block uppercase tracking-tight">System Terminal</span>
           </div>
 
